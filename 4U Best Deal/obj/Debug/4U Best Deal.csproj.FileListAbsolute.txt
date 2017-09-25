@@ -11,3 +11,5 @@ E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\4U Best Deal.pdb
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\_4U_Best_Deal.UC_Webconnect.resources
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\WebDriver.dll
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\WebDriver.xml
+E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\CsvHelper.dll
+E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\CsvHelper.xml

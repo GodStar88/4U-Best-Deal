@@ -11,3 +11,5 @@ E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Release\4U Best Deal.csp
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Release\4U Best Deal.exe
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Release\4U Best Deal.pdb
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Release\4U Best Deal.csprojResolveAssemblyReference.cache
+E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Release\CsvHelper.dll
+E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Release\CsvHelper.xml

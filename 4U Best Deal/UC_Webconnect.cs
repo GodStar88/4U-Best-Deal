@@ -16,6 +16,31 @@ namespace _4U_Best_Deal
 {
     public partial class UC_Webconnect : UserControl
     {
+        // ID, Code, Description, supplierCode, additionalInfo, imageURL, Unit, BulkPrice, 
+        // StandardPrice, stockNSW, stockQLD, stockVIC, stockWA, barcode, barcodeInner, brand, categories
+        class Employee
+        {
+            public string ID { get; set; }
+            public string Code { get; set; }
+            public string Description { get; set; }
+            public string supplierCode { get; set; }
+            public string additionalInfo { get; set; }
+            public string imageURL { get; set; }
+            public string Unit { get; set; }
+            public string BulkPrice { get; set; }
+            public string StandardPrice { get; set; }
+            public string stockNSW { get; set; }
+            public string stockQLD { get; set; }
+            public string stockVIC { get; set; }
+            public string stockWA { get; set; }
+            public string barcode { get; set; }
+            public string barcodeInner { get; set; }
+            public string brand { get; set; }
+            public string categories { get; set; }
+        }
+
+
+
         string WEBSITE = "http://webconnect.groupnews.com.au/login.aspx?ReturnUrl=%2f";
         string CATEGORYPATH = "webconnect.groupnews.com.txt";
         string SAVEPATH = "webconnect.groupnews.com.csv";
@@ -124,7 +149,7 @@ namespace _4U_Best_Deal
             {
                 try
                 {
-                    List<string> list = new List<string>();
+                    Employee emp = new Employee();
                     string ID = driver.FindElement(By.XPath("(//span[@class='textWhite'])[" + (i * 3 + 1).ToString() + "]")).Text;
                     if (CheckID(ID))
                     {
@@ -138,59 +163,68 @@ namespace _4U_Best_Deal
                         }
                         new CWebBrowser().newTab(driver, moreURL[i]);
                         Thread.Sleep(500);
-                        list.Add(ID);  // ID
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblCode")).Text); // Code
-                        list.Add(Description.Replace(",", ".")); // Description
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblSupplierCode")).Text); // supplierCode
+                        emp.ID = ID;  // ID
+                        emp.Code = driver.FindElement(By.Id("ctl00_contentMain_lblCode")).Text; // Code
+                        emp.Description = Description; // Description
+                        emp.supplierCode = driver.FindElement(By.Id("ctl00_contentMain_lblSupplierCode")).Text; // supplierCode
                         string info = "";
                         try { info = driver.FindElement(By.Id("ctl00_contentMain_LoginView2_lblAdditionalDescription1")).Text; } catch (Exception) { }
-                        list.Add(info.Replace(",", ".")); // additionalInfo
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_imgProduct")).GetAttribute("href")); // imageURL
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblUnit")).Text); // Unit
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblPickupPrice")).Text.Split(' ')[0]); // BulkPrice
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblDeliveredPrice")).Text.Split(' ')[0]); // StandardPrice
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockNSW")).Text.Split(' ')[0]); // stockNSW
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockQLD")).Text.Split(' ')[0]); // stockQLD
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockVIC")).Text.Split(' ')[0]); // stockVIC
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockWA")).Text.Split(' ')[0]);  // stockWA
+                        emp.additionalInfo = info; // additionalInfo
+                        emp.imageURL = driver.FindElement(By.Id("ctl00_contentMain_imgProduct")).GetAttribute("href"); // imageURL
+                        emp.Unit = driver.FindElement(By.Id("ctl00_contentMain_lblUnit")).Text; // Unit
+                        emp.BulkPrice = driver.FindElement(By.Id("ctl00_contentMain_lblPickupPrice")).Text.Split(' ')[0]; // BulkPrice
+                        emp.StandardPrice = driver.FindElement(By.Id("ctl00_contentMain_lblDeliveredPrice")).Text.Split(' ')[0]; // StandardPrice
+                        emp.stockNSW = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockNSW")).Text.Split(' ')[0]; // stockNSW
+                        emp.stockQLD = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockQLD")).Text.Split(' ')[0]; // stockQLD
+                        emp.stockVIC = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockVIC")).Text.Split(' ')[0]; // stockVIC
+                        emp.stockWA = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockWA")).Text.Split(' ')[0];  // stockWA
 
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblBarcode")).Text); // barcode
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblbarcodeInner")).Text); // barcodeInner
-                        list.Add(driver.FindElement(By.Id("ctl00_contentMain_lblBrand")).Text); // brand
-                        list.Add(ca); // categories
+                        emp.barcode = driver.FindElement(By.Id("ctl00_contentMain_lblBarcode")).Text; // barcode
+                        emp.barcodeInner = driver.FindElement(By.Id("ctl00_contentMain_lblbarcodeInner")).Text; // barcodeInner
+                        emp.brand = driver.FindElement(By.Id("ctl00_contentMain_lblBrand")).Text; // brand
+                        emp.categories = ca; // categories
 
-                        //                         var csv = new StringBuilder();
-                        //                         var newLine = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16}",
-                        //                             list[0], list[1], list[2], list[3], list[4], list[5], list[6], list[7], list[8], list[9], list[10], list[11], list[12], list[13], list[14], list[15], list[16]);
-                        //                         csv.AppendLine(newLine);
-                        //                         File.AppendAllText(SAVEPATH, csv.ToString());
-
-
-                        List<Employee> empList = new List<Employee>();
-
+                        List<Employee> list = new List<Employee>();
+                        try
+                        {
+                            using (var textReader = File.OpenText(SAVEPATH))
+                            {
+                                var csv = new CsvReader(textReader);
+                                while (csv.Read())
+                                {
+                                    var record = csv.GetRecord<Employee>();
+                                    list.Add(record);
+                                }
+                                textReader.Close();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                        }
+                        list.Add(emp);
                         using (StreamWriter sw = new StreamWriter(SAVEPATH))
                         using (CsvWriter cw = new CsvWriter(sw))
                         {
                             cw.WriteHeader<Employee>();
-
-                            foreach (Employee emp in empList)
+                            foreach (Employee item in list)
                             {
-                                emp.Wage *= 1.1F;
-                                cw.WriteRecord<Employee>(emp);
+                                cw.WriteRecord<Employee>(item);
                             }
                         }
-
                         new CWebBrowser().closeBrowser(driver);
                         Thread.Sleep(500);
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Console.Write(e.ToString());
                 }
             }
 
             try
             {
+                Thread.Sleep(1000);
+                new CWebBrowser().pageDown(driver);
                 Thread.Sleep(1000);
                 var button = driver.FindElements(By.XPath("//a[@class='pagination']"));
                 foreach (var item in button)
@@ -211,9 +245,16 @@ namespace _4U_Best_Deal
         }
         private bool CheckID(string ID)
         {
-            string text = File.ReadAllText(SAVEPATH);
-            if (text.Contains(ID)) return false;
-            else return true;
+            try
+            {
+                string text = File.ReadAllText(SAVEPATH);
+                if (text.Contains(ID)) return false;
+                else return true;
+            }
+            catch (Exception)
+            {
+                return true; ;
+            }
         }
     }
 }

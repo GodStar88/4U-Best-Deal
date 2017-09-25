@@ -42,5 +42,18 @@ namespace _4U_Best_Deal
             driver.Close();
             driver.SwitchTo().Window(driver.WindowHandles.First());
         }
+
+        public void pageDown(IWebDriver driver)
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight);");
+            Thread.Sleep(500);
+        }
+        public void pageUp(IWebDriver driver)
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("window.scrollTo(0, 0);");
+            Thread.Sleep(500);
+        }
     }
 }
