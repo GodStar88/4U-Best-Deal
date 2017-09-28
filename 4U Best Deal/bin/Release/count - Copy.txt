@@ -1,0 +1,6 @@
+
+http://webconnect.groupnews.com.au/productsListDetailed.aspx?Category=N300      25
+http://webconnect.groupnews.com.au/productsListDetailed.aspx?Category=N500      14
+http://webconnect.groupnews.com.au/productsListDetailed.aspx?Category=N100      84
+http://webconnect.groupnews.com.au/productsListDetailed.aspx?Category=N400      26
+http://webconnect.groupnews.com.au/productsListDetailed.aspx?Category=N200      52

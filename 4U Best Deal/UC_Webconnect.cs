@@ -11,6 +11,7 @@ using System.Threading;
 using OpenQA.Selenium;
 using System.IO;
 using CsvHelper;
+using System.Net.Mail;
 
 namespace _4U_Best_Deal
 {
@@ -82,22 +83,28 @@ namespace _4U_Best_Deal
             {
             }
         }
-
+        int total = 0;
         private void Start()
         {
+            total = 0;
             navigator = new CWebBrowser().googleChrome();
             WebLogin(navigator);
             string text = File.ReadAllText(CATEGORYPATH);
             var category = text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             int point = int.Parse(File.ReadAllText(SETTINGPATH));
+            navigator.Manage().Window.Position = new Point(-2000, 0);
             for (int i = point; i < category.Length; i++)
             {
                 File.WriteAllText(SETTINGPATH, i.ToString());
                 navigator.Navigate().GoToUrl(category[i]);
                 Thread.Sleep(500);
                 string ca = navigator.FindElement(By.XPath("//span[@class='breadcrumb']")).Text;
-                GetInformation(navigator, ca);                
+                int count = GetInformation(navigator, ca);
+
+                File.AppendAllText("count.txt", category[i] + "      " + count.ToString() + Environment.NewLine);
             }
+            File.AppendAllText("count.txt", "   Total count = " + total.ToString());
+            Stop();
         }
 
         private void WebLogin(IWebDriver driver)
@@ -120,8 +127,9 @@ namespace _4U_Best_Deal
 
         // ID, Code, Description, supplierCode, additionalInfo, imageURL, Unit, BulkPrice, 
         // StandardPrice, stockNSW, stockQLD, stockVIC, stockWA, barcode, barcodeInner, brand, categories
-        private void GetInformation(IWebDriver driver, string ca)
+        private int GetInformation(IWebDriver driver, string ca)
         {
+            int count = 0;
             NextPage:
             string firstID = "";
             try
@@ -130,96 +138,109 @@ namespace _4U_Best_Deal
             }
             catch (Exception)
             {
-                return;
+                // return;
             }
-            var more = driver.FindElements(By.XPath("//a"));
+            
             List<string> moreURL = new List<string>();
-            foreach (var item in more)
+            try
             {
-                try
+                var more = driver.FindElements(By.XPath("//a"));
+                foreach (var item in more)
                 {
                     if (item.Text == "More Information")
-                        moreURL.Add(item.GetAttribute("href"));
-                }
-                catch (Exception)
-                {
-                }
-            }
-            for (int i = 0; i < moreURL.Count; i ++)
-            {
-                try
-                {
-                    Employee emp = new Employee();
-                    string ID = driver.FindElement(By.XPath("(//span[@class='textWhite'])[" + (i * 3 + 1).ToString() + "]")).Text;
-                    if (CheckID(ID))
                     {
-                        string Description = driver.FindElement(By.XPath("(//span[@class='textWhite'])[" + (i * 3 + 3).ToString() + "]")).Text;
+                        moreURL.Add(item.GetAttribute("href"));
+                        count++;
+                        total++;
                         try
                         {
-                            label3.Text = Description;
+                            label4.Text = total.ToString();
                         }
                         catch (Exception)
                         {
-                        }
-                        new CWebBrowser().newTab(driver, moreURL[i]);
-                        Thread.Sleep(500);
-                        emp.ID = ID;  // ID
-                        emp.Code = driver.FindElement(By.Id("ctl00_contentMain_lblCode")).Text; // Code
-                        emp.Description = Description; // Description
-                        emp.supplierCode = driver.FindElement(By.Id("ctl00_contentMain_lblSupplierCode")).Text; // supplierCode
-                        string info = "";
-                        try { info = driver.FindElement(By.Id("ctl00_contentMain_LoginView2_lblAdditionalDescription1")).Text; } catch (Exception) { }
-                        emp.additionalInfo = info; // additionalInfo
-                        emp.imageURL = driver.FindElement(By.Id("ctl00_contentMain_imgProduct")).GetAttribute("href"); // imageURL
-                        emp.Unit = driver.FindElement(By.Id("ctl00_contentMain_lblUnit")).Text; // Unit
-                        emp.BulkPrice = driver.FindElement(By.Id("ctl00_contentMain_lblPickupPrice")).Text.Split(' ')[0]; // BulkPrice
-                        emp.StandardPrice = driver.FindElement(By.Id("ctl00_contentMain_lblDeliveredPrice")).Text.Split(' ')[0]; // StandardPrice
-                        emp.stockNSW = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockNSW")).Text.Split(' ')[0]; // stockNSW
-                        emp.stockQLD = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockQLD")).Text.Split(' ')[0]; // stockQLD
-                        emp.stockVIC = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockVIC")).Text.Split(' ')[0]; // stockVIC
-                        emp.stockWA = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockWA")).Text.Split(' ')[0];  // stockWA
 
-                        emp.barcode = driver.FindElement(By.Id("ctl00_contentMain_lblBarcode")).Text; // barcode
-                        emp.barcodeInner = driver.FindElement(By.Id("ctl00_contentMain_lblbarcodeInner")).Text; // barcodeInner
-                        emp.brand = driver.FindElement(By.Id("ctl00_contentMain_lblBrand")).Text; // brand
-                        emp.categories = ca; // categories
-
-                        List<Employee> list = new List<Employee>();
-                        try
-                        {
-                            using (var textReader = File.OpenText(SAVEPATH))
-                            {
-                                var csv = new CsvReader(textReader);
-                                while (csv.Read())
-                                {
-                                    var record = csv.GetRecord<Employee>();
-                                    list.Add(record);
-                                }
-                                textReader.Close();
-                            }
                         }
-                        catch (Exception)
-                        {
-                        }
-                        list.Add(emp);
-                        using (StreamWriter sw = new StreamWriter(SAVEPATH))
-                        using (CsvWriter cw = new CsvWriter(sw))
-                        {
-                            cw.WriteHeader<Employee>();
-                            foreach (Employee item in list)
-                            {
-                                cw.WriteRecord<Employee>(item);
-                            }
-                        }
-                        new CWebBrowser().closeBrowser(driver);
-                        Thread.Sleep(500);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.Write(e.ToString());
+                    }                        
                 }
             }
+            catch (Exception)
+            {
+            }
+            //for (int i = 0; i < moreURL.Count; i ++)
+            //{
+            //    try
+            //    {
+            //        Employee emp = new Employee();
+            //        string ID = driver.FindElement(By.XPath("(//span[@class='textWhite'])[" + (i * 3 + 1).ToString() + "]")).Text;
+            //        if (CheckID(ID))
+            //        {
+            //            string Description = driver.FindElement(By.XPath("(//span[@class='textWhite'])[" + (i * 3 + 3).ToString() + "]")).Text;
+            //            try
+            //            {
+            //                label3.Text = Description;
+            //            }
+            //            catch (Exception)
+            //            {
+            //            }
+            //            new CWebBrowser().newTab(driver, moreURL[i]);
+            //            Thread.Sleep(1000);
+            //            emp.ID = ID;  // ID
+            //            emp.Code = driver.FindElement(By.Id("ctl00_contentMain_lblCode")).Text; // Code
+            //            emp.Description = Description; // Description
+            //            emp.supplierCode = driver.FindElement(By.Id("ctl00_contentMain_lblSupplierCode")).Text; // supplierCode
+            //            string info = "";
+            //            try { info = driver.FindElement(By.Id("ctl00_contentMain_LoginView2_lblAdditionalDescription1")).Text; } catch (Exception) { }
+            //            emp.additionalInfo = info; // additionalInfo
+            //            emp.imageURL = driver.FindElement(By.Id("ctl00_contentMain_imgProduct")).GetAttribute("href"); // imageURL
+            //            emp.Unit = driver.FindElement(By.Id("ctl00_contentMain_lblUnit")).Text; // Unit
+            //            emp.BulkPrice = driver.FindElement(By.Id("ctl00_contentMain_lblPickupPrice")).Text.Split(' ')[0]; // BulkPrice
+            //            emp.StandardPrice = driver.FindElement(By.Id("ctl00_contentMain_lblDeliveredPrice")).Text.Split(' ')[0]; // StandardPrice
+            //            emp.stockNSW = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockNSW")).Text.Split(' ')[0]; // stockNSW
+            //            emp.stockQLD = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockQLD")).Text.Split(' ')[0]; // stockQLD
+            //            emp.stockVIC = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockVIC")).Text.Split(' ')[0]; // stockVIC
+            //            emp.stockWA = driver.FindElement(By.Id("ctl00_contentMain_lblRealtimeStockWA")).Text.Split(' ')[0];  // stockWA
+
+            //            emp.barcode = driver.FindElement(By.Id("ctl00_contentMain_lblBarcode")).Text; // barcode
+            //            emp.barcodeInner = driver.FindElement(By.Id("ctl00_contentMain_lblbarcodeInner")).Text; // barcodeInner
+            //            emp.brand = driver.FindElement(By.Id("ctl00_contentMain_lblBrand")).Text; // brand
+            //            emp.categories = ca; // categories
+
+            //            List<Employee> list = new List<Employee>();
+            //            try
+            //            {
+            //                using (var textReader = File.OpenText(SAVEPATH))
+            //                {
+            //                    var csv = new CsvReader(textReader);
+            //                    while (csv.Read())
+            //                    {
+            //                        var record = csv.GetRecord<Employee>();
+            //                        list.Add(record);
+            //                    }
+            //                    textReader.Close();
+            //                }
+            //            }
+            //            catch (Exception)
+            //            {
+            //            }
+            //            list.Add(emp);
+            //            using (StreamWriter sw = new StreamWriter(SAVEPATH))
+            //            using (CsvWriter cw = new CsvWriter(sw))
+            //            {
+            //                cw.WriteHeader<Employee>();
+            //                foreach (Employee item in list)
+            //                {
+            //                    cw.WriteRecord<Employee>(item);
+            //                }
+            //            }
+            //            new CWebBrowser().closeBrowser(driver);
+            //            Thread.Sleep(500);
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.Write(e.ToString());
+            //    }
+            //}
 
             try
             {
@@ -232,7 +253,7 @@ namespace _4U_Best_Deal
                     if (item.Text.Contains("Next"))
                     {
                         item.Click();
-                        Thread.Sleep(1000);
+                        Thread.Sleep(3000);
                         break;
                     }                     
                 }                
@@ -242,6 +263,7 @@ namespace _4U_Best_Deal
             catch (Exception)
             {
             }
+            return count;
         }
         private bool CheckID(string ID)
         {

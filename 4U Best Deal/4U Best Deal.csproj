@@ -7,7 +7,7 @@
     <ProjectGuid>{83D3BF8A-F4EF-4C41-9938-CE6298BDC64C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>_4U_Best_Deal</RootNamespace>
-    <AssemblyName>4U Best Deal</AssemblyName>
+    <AssemblyName>4U Best Deal 1.0</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
