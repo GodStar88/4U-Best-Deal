@@ -1,15 +1,15 @@
-E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\4U Best Deal.exe.config
-E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\4U Best Deal.exe
-E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\4U Best Deal.pdb
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\4U Best Deal.csprojResolveAssemblyReference.cache
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\_4U_Best_Deal.FrmMain.resources
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\_4U_Best_Deal.Properties.Resources.resources
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\4U Best Deal.csproj.GenerateResource.Cache
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\4U Best Deal.csproj.CoreCompileInputs.cache
-E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\4U Best Deal.exe
-E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\4U Best Deal.pdb
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\_4U_Best_Deal.UC_Webconnect.resources
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\WebDriver.dll
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\WebDriver.xml
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\CsvHelper.dll
 E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\CsvHelper.xml
+E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\4U Best Deal 1.0.exe.config
+E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\4U Best Deal 1.0.exe
+E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\bin\Debug\4U Best Deal 1.0.pdb
+E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\4U Best Deal 1.0.exe
+E:\Work\VC\Bot\09 - Other\4U Best Deal\4U Best Deal\obj\Debug\4U Best Deal 1.0.pdb
