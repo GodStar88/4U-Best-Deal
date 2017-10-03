@@ -64,6 +64,7 @@
             this.uC_Webconnect1.Name = "uC_Webconnect1";
             this.uC_Webconnect1.Size = new System.Drawing.Size(410, 299);
             this.uC_Webconnect1.TabIndex = 0;
+            this.uC_Webconnect1.Load += new System.EventHandler(this.uC_Webconnect1_Load);
             // 
             // FrmMain
             // 

@@ -89,10 +89,8 @@ namespace _4U_Best_Deal
             {
             }
         }
-        int total = 0;
         private void Start()
         {
-            total = 0;
             navigator = new CWebBrowser().googleChrome();
             WebLogin(navigator);
 
@@ -125,6 +123,7 @@ namespace _4U_Best_Deal
                 Thread.Sleep(500);
                 File.WriteAllText(SETTINGPATH, (i + 1).ToString());
             }
+            Stop();
         }
 
         private void WebLogin(IWebDriver driver)
@@ -149,6 +148,17 @@ namespace _4U_Best_Deal
         // StandardPrice, stockNSW, stockQLD, stockVIC, stockWA, barcode, barcodeInner, brand, categories
         private void GetInformation(IWebDriver driver, string ID, string ca)
         {
+            try
+            {
+                var  details =  driver.FindElement(By.Id("ctl00_lblHeaderMain"));
+            }
+            catch (Exception)
+            {
+                // MessageBox.Show("You have a problem, Please restart !!!");
+                Stop();
+                Thread.Sleep(1000);
+                Btn_Start.PerformClick();
+            }
             try
             {
                 Employee emp = new Employee();

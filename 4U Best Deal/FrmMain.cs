@@ -19,7 +19,12 @@ namespace _4U_Best_Deal
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            if (!new CKeyCheck().KeyCheck()) Application.Exit();
+            // if (!new CKeyCheck().KeyCheck()) Application.Exit();
+        }
+
+        private void uC_Webconnect1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
